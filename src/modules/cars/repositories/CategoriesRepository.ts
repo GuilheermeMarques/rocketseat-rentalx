@@ -3,10 +3,17 @@ import { ICategoriesRepository, iCreateCategoryDTO } from './ICategoriesReposito
 class CategoriesRepository implements ICategoriesRepository {
   private categories: Category[] = [];
 
-
-  //Retirando a responsabiliadde da variável, e trazendo para o constructor
-  constructor() {
+  private static INSTANCE: CategoriesRepository;
+  
+  private constructor() {
     this.categories = [];
+  };
+
+  public static getInstance(): CategoriesRepository {
+    if(!CategoriesRepository.INSTANCE){
+      CategoriesRepository.INSTANCE = new CategoriesRepository();
+    }
+    return CategoriesRepository.INSTANCE;
   };
 
   create({ name, description } : iCreateCategoryDTO): void {
